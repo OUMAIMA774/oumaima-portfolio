@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oumaima El Yamani — Data Science & Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #f8f7fc;
+      --bg2:       #f2f0f9;
+      --bg3:       #eceaf5;
+      --white:     #ffffff;
+      --border:    #e4e0f0;
+      --border2:   #d8d3ed;
+      --violet:    #7c6fcd;
+      --violet-mid:#9e94d8;
+      --violet-pale:#c9c3e8;
+      --violet-wash:#ede9f8;
+      --violet-deep:#4a3f9f;
+      --text:      #1d1a2e;
+      --muted:     #6b6580;
+      --subtle:    #a09bb8;
+      --ink:       #1d1a2e;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'Outfit', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(248,247,252,0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      height: 62px;
+      display: flex; align-items: center;
+      padding: 0 clamp(1.5rem,6vw,5rem);
+      justify-content: space-between;
+    }
+    .nav-name {
+      font-family: var(--serif);
+      font-size: 20px; font-weight: 400;
+      color: var(--ink); text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 13.5px; font-weight: 400; color: var(--muted);
+      text-decoration: none; transition: color .18s;
+    }
+    .nav-links a:hover { color: var(--violet-deep); }
+    .nav-pill {
+      background: var(--violet);
+      color: #fff; padding: 7px 20px;
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: background .18s;
+    }
+    .nav-pill:hover { background: var(--violet-deep); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 7rem clamp(1.5rem,6vw,5rem) 5rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* soft blobs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(201,195,232,0.35) 0%, transparent 68%);
+      pointer-events: none; z-index: 0;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: 10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(ellipse, rgba(156,148,216,0.18) 0%, transparent 68%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .hero-left { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--violet-wash);
+      border: 1px solid var(--violet-pale);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 12.5px; font-weight: 500;
+      color: var(--violet); letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .hero-tag-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--violet);
+      animation: blink 2.2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+    .hero-left h1 {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem,6vw,5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 1.75rem;
+    }
+    .hero-left h1 em {
+      font-style: italic;
+      color: var(--violet);
+    }
+    .hero-desc {
+      font-size: 15.5px; color: var(--muted);
+      font-weight: 300; line-height: 1.8;
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-violet {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--violet); color: #fff;
+      padding: 12px 28px; border-radius: 100px;
+      font-size: 14px; font-weight: 500;
+      text-decoration: none; transition: background .18s, transform .18s;
+    }
+    .btn-violet:hover { background: var(--violet-deep); transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: transparent; color: var(--violet);
+      border: 1.5px solid var(--violet-pale);
+      padding: 11px 22px; border-radius: 100px;
+      font-size: 14px; font-weight: 500;
+      text-decoration: none; transition: border-color .18s, background .18s;
+    }
+    .btn-ghost:hover { border-color: var(--violet); background: var(--violet-wash); }
+
+    /* Hero right — card stack */
+    .hero-right {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .hcard {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; gap: 14px;
+      opacity: 0; transform: translateX(30px);
+      transition: opacity .55s, transform .55s;
+    }
+    .hcard.show { opacity: 1; transform: translateX(0); }
+    .hcard-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .hcard-text {}
+    .hcard-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+    .hcard-sub { font-size: 12.5px; color: var(--muted); }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: clamp(1.5rem,6vw,5rem);
+      display: flex; align-items: center; gap: 10px; z-index: 1;
+      font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--subtle);
+    }
+    .scroll-bar {
+      width: 36px; height: 1px; background: var(--violet-pale);
+      animation: grow 2s ease-in-out infinite;
+    }
+    @keyframes grow { 0%,100%{width:36px;} 50%{width:56px;} }
+
+    /* ── SECTION ── */
+    .section-wrap { padding: 5.5rem clamp(1.5rem,6vw,5rem); }
+    .section-head { margin-bottom: 3.5rem; }
+    .section-label {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 11.5px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--violet);
+      margin-bottom: 0.75rem;
+    }
+    .section-label::before {
+      content: ''; width: 20px; height: 1.5px; background: var(--violet);
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem,4vw,3rem);
+      font-weight: 300;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .section-title em { font-style: italic; color: var(--violet); }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--white); border-top: 1px solid var(--border); }
+
+    .timeline { display: flex; flex-direction: column; }
+    .tl-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0 3.5rem;
+      padding: 2.75rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: 200px; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+      margin-left: -1.75rem;
+    }
+    .tl-item:last-child { border-bottom: none; }
+
+    .tl-left {}
+    .tl-period {
+      font-size: 12px; font-weight: 500; color: var(--violet);
+      letter-spacing: 0.03em; margin-bottom: 6px;
+    }
+    .tl-company {
+      font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px;
+    }
+    .tl-loc { font-size: 12px; color: var(--subtle); }
+
+    .tl-right {}
+    .tl-role {
+      font-family: var(--serif);
+      font-size: 1.45rem; font-weight: 400;
+      color: var(--ink); margin-bottom: 0.9rem;
+      letter-spacing: -0.01em;
+    }
+    .tl-desc {
+      font-size: 14.5px; color: var(--muted);
+      line-height: 1.8; font-weight: 300;
+      margin-bottom: 1.25rem;
+    }
+    .tl-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tl-tag {
+      font-size: 11.5px; font-weight: 500;
+      padding: 4px 13px; border-radius: 100px;
+      background: var(--violet-wash);
+      border: 1px solid var(--violet-pale);
+      color: var(--violet);
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg2); }
+
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 18px;
+    }
+    .proj-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.75rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      text-decoration: none; color: inherit;
+      transition: border-color .2s, transform .22s, box-shadow .22s;
+    }
+    .proj-card:hover {
+      border-color: var(--violet-pale);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(124,111,205,0.1);
+    }
+
+    .proj-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .proj-badge {
+      font-size: 10.5px; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 4px 12px;
+      border-radius: 100px;
+    }
+    .b-dist  { background: #eef1fb; color: #3b5bdb; }
+    .b-ai    { background: var(--violet-wash); color: var(--violet-deep); }
+    .b-sec   { background: #fdf2f8; color: #9d174d; }
+    .b-de    { background: #fefce8; color: #92400e; }
+    .b-cv    { background: #fff7ed; color: #c2410c; }
+    .b-stat  { background: #f0fdf4; color: #166534; }
+    .b-web   { background: #ecfdf5; color: #065f46; }
+    .b-ds    { background: #f5f3ff; color: #5b21b6; }
+
+    .proj-arrow {
+      font-size: 16px; color: var(--border2);
+      transition: color .18s, transform .18s;
+    }
+    .proj-card:hover .proj-arrow { color: var(--violet); transform: translate(3px,-3px); }
+
+    .proj-title {
+      font-family: var(--serif);
+      font-size: 1.25rem; font-weight: 400;
+      color: var(--ink); line-height: 1.3;
+    }
+    .proj-desc {
+      font-size: 13.5px; color: var(--muted);
+      line-height: 1.75; font-weight: 300; flex: 1;
+    }
+    .proj-hl {
+      background: var(--violet-wash);
+      border-left: 2.5px solid var(--violet-pale);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 13px; color: var(--muted); line-height: 1.6;
+    }
+    .proj-hl strong { color: var(--violet-deep); font-weight: 600; }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+    .stag {
+      font-size: 11px; font-weight: 400;
+      padding: 3px 10px; border-radius: 100px;
+      background: var(--bg3); color: var(--subtle);
+      border: 1px solid var(--border);
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--white); border-top: 1px solid var(--border); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .sk-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    .sk-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 1.1rem;
+    }
+    .sk-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+    .sk-name {
+      font-size: 13px; font-weight: 600; color: var(--ink);
+      letter-spacing: 0.01em;
+    }
+    .sk-items { display: flex; flex-wrap: wrap; gap: 6px; }
+    .sk-item {
+      font-size: 12.5px; font-weight: 400;
+      padding: 4px 12px; border-radius: 100px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: border-color .15s, color .15s;
+    }
+    .sk-item:hover { border-color: var(--violet-pale); color: var(--violet); }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--bg2); }
+
+    .edu-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px,1fr));
+      gap: 16px;
+    }
+    .edu-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.75rem;
+      display: flex; flex-direction: column; gap: 8px;
+      position: relative; overflow: hidden;
+    }
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      border-radius: 18px 18px 0 0;
+    }
+    .edu-card.violet::before { background: linear-gradient(90deg, var(--violet), var(--violet-mid)); }
+    .edu-card.pale::before   { background: linear-gradient(90deg, var(--violet-pale), #d8b4fe); }
+    .edu-card.soft::before   { background: linear-gradient(90deg, #c4b5fd, var(--violet-pale)); }
+
+    .edu-years {
+      font-size: 11.5px; font-weight: 500; color: var(--violet);
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .edu-school {
+      font-family: var(--serif);
+      font-size: 1.2rem; font-weight: 400; color: var(--ink);
+    }
+    .edu-degree { font-size: 13.5px; color: var(--muted); font-weight: 300; }
+    .edu-place  { font-size: 12px; color: var(--subtle); }
+    .edu-mention {
+      display: inline-block; margin-top: 4px;
+      background: var(--violet-wash);
+      border: 1px solid var(--violet-pale);
+      color: var(--violet-deep);
+      border-radius: 100px; font-size: 11.5px;
+      font-weight: 500; padding: 3px 12px;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: linear-gradient(135deg, #3730a3 0%, var(--violet) 55%, #9e94d8 100%);
+      padding: 7rem clamp(1.5rem,6vw,5rem);
+    }
+    .contact-inner { max-width: 680px; }
+    .contact-eyebrow {
+      font-size: 11.5px; font-weight: 600; letter-spacing: 0.09em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      margin-bottom: 1.5rem;
+    }
+    .contact-title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem,5vw,3.8rem);
+      font-weight: 300; line-height: 1.1;
+      letter-spacing: -0.01em; color: #fff;
+      margin-bottom: 1.5rem;
+    }
+    .contact-title em { font-style: italic; color: rgba(255,255,255,0.55); }
+    .contact-sub {
+      font-size: 15.5px; color: rgba(255,255,255,0.6);
+      font-weight: 300; margin-bottom: 3rem; line-height: 1.75;
+    }
+    .clinks { display: flex; flex-wrap: wrap; gap: 12px; }
+    .clink {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      padding: 11px 24px; font-size: 13.5px; font-weight: 500;
+      color: #fff; text-decoration: none;
+      transition: background .18s;
+    }
+    .clink:hover { background: rgba(255,255,255,0.18); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #2c2669;
+      padding: 1.5rem clamp(1.5rem,6vw,5rem);
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    footer span { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .6s cubic-bezier(.25,.8,.25,1),
+                  transform .6s cubic-bezier(.25,.8,.25,1);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 820px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 6rem; }
+      .hero-right { display: none; }
+      .tl-item { grid-template-columns: 1fr; gap: .5rem; }
+      .tl-item::before { display: none; }
+      .nav-links { display: none; }
+    }
+.hcard-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.hcard-icon img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-name">Oumaima El Yamani</a>
+  <ul class="nav-links">
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#education">Formation</a></li>
+  </ul>
+  <a href="mailto:elyamanioumaimaa@gmail.com" class="nav-pill">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">
+      <span class="hero-tag-dot"></span>
+      Ingénieure IDSI · FSTM Mohammedia
+    </div>
+    <h1>Data Science<br>&amp; <em>Ingénierie</em><br>Logicielle.</h1>
+    <p class="hero-desc">
+      Passionnée par l'intelligence artificielle, la data et l'ingénierie logicielle, je développe des solutions intelligentes, scalables et orientées données à travers des projets académiques ambitieux et des expériences professionnelles internationales.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-violet">Mes projets</a>
+      <a href="https://github.com/OUMAIMA774" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/oumaima-el-yamani-84a002353" target="_blank" rel="noopener" class="btn-ghost">LinkedIn ↗</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hcard" id="hc1">
+      <div class="hcard-icon" style="background:#eef1fb;">
+    <img src="images/innucloud.png" alt="InnuCloud">
+</div>
+      <div class="hcard-text">
+        <div class="hcard-title">InnuCloud — Montréal, Canada</div>
+        <div class="hcard-sub">Stage PFA · IA &amp; Cybersécurité · 2025–2026</div>
+      </div>
+    </div>
+    <div class="hcard" id="hc2">
+      <div class="hcard-icon" style="background:var(--violet-wash);">
+    <img src="images/arimayi.png" alt="AriMayi">
+</div>
+      <div class="hcard-text">
+        <div class="hcard-title">AriMayi — France</div>
+        <div class="hcard-sub">Full Stack Java Spring Boot · Été 2025</div>
+      </div>
+    </div>
+    <div class="hcard" id="hc3">
+      <div class="hcard-icon" style="background:#fefce8;">
+    <img src="images/leyton.png" alt="Leyton Maroc">
+</div>
+      <div class="hcard-text">
+        <div class="hcard-title">Leyton Maroc — Casablanca</div>
+        <div class="hcard-sub">Data Engineering · Kafka · Elasticsearch · 2024</div>
+      </div>
+    </div>
+    <div class="hcard" id="hc4">
+      <div class="hcard-icon" style="background:#ecfdf5;">🤖</div>
+      <div class="hcard-text">
+        <div class="hcard-title">Deep Learning &amp; Computer Vision</div>
+        <div class="hcard-sub">CLIP · ResNet50 · PyTorch · Embeddings 2048-d</div>
+      </div>
+    </div>
+    <div class="hcard" id="hc5">
+      <div class="hcard-icon" style="background:#fff7ed;">📊</div>
+      <div class="hcard-text">
+        <div class="hcard-title">Modélisation Statistique R</div>
+        <div class="hcard-sub">GLM Binomial · AUC 0.866 · ACM · FactoMineR</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span class="scroll-bar"></span>
+    Défiler
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-label">Expérience professionnelle</div>
+      <h2 class="section-title">Trois stages,<br>trois <em>univers.</em></h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-left">
+          <div class="tl-period">2025 – 2026</div>
+          <div class="tl-company">InnuCloud</div>
+          <div class="tl-loc">Montréal, Canada (Remote)</div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Stage PFA — Secure Compliance Assistant</div>
+          <p class="tl-desc">
+            Conception et développement d'une plateforme web intelligente d'analyse des risques et d'aide à la conformité en cybersécurité. Participation à toutes les phases : analyse des besoins, architecture de la solution, modélisation, développement des fonctionnalités, intégration de l'IA (Google Gemini), gestion des utilisateurs, alertes, tâches de revue et journal d'audit. Attestée par M. Wadii Adil, CTO d'InnuCloud.
+          </p>
+          <div class="tl-tags">
+            <span class="tl-tag">Laravel</span>
+            <span class="tl-tag">PHP 8</span>
+            <span class="tl-tag">MySQL</span>
+            <span class="tl-tag">Tailwind CSS</span>
+            <span class="tl-tag">Google Gemini API</span>
+            <span class="tl-tag">Cybersécurité</span>
+            <span class="tl-tag">Conformité IA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-left">
+          <div class="tl-period">Juil. – Août 2025</div>
+          <div class="tl-company">AriMayi</div>
+          <div class="tl-loc">France (Remote)</div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Développeur Full Stack — Java Spring Boot</div>
+          <p class="tl-desc">
+            Intégrée à l'équipe backend de la plateforme CleverBoost, développement d'un module de certification automatisant la génération, l'envoi et le stockage de certificats PDF (iText). Implémentation d'APIs RESTful, notifications email, optimisation JPA, couverture Swagger et tests unitaires dans un contexte microservices.
+          </p>
+          <div class="tl-tags">
+            <span class="tl-tag">Spring Boot</span>
+            <span class="tl-tag">Microservices</span>
+            <span class="tl-tag">iText PDF</span>
+            <span class="tl-tag">REST API</span>
+            <span class="tl-tag">JPA</span>
+            <span class="tl-tag">Swagger</span>
+            <span class="tl-tag">Tests unitaires</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-left">
+          <div class="tl-period">Juin – Juil. 2024</div>
+          <div class="tl-company">Leyton Maroc</div>
+          <div class="tl-loc">Casablanca, Maroc</div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Stagiaire Data Engineering</div>
+          <p class="tl-desc">
+            Conception et implémentation d'un pipeline de traitement de données en temps réel pour la surveillance de flux financiers. Développement d'un simulateur de données, consommateur Kafka pour la détection d'anomalies et API FastAPI de consultation des alertes.
+          </p>
+          <div class="tl-tags">
+            <span class="tl-tag">Kafka</span>
+            <span class="tl-tag">Python</span>
+            <span class="tl-tag">Elasticsearch</span>
+            <span class="tl-tag">FastAPI</span>
+            <span class="tl-tag">Détection d'anomalies</span>
+            <span class="tl-tag">Streaming</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-label">Projets académiques</div>
+      <h2 class="section-title">Construire pour <em>apprendre.</em></h2>
+    </div>
+
+    <div class="proj-grid">
+
+      <a href="https://github.com/OUMAIMA774" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-top">
+          <span class="proj-badge b-dist">Systèmes distribués</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+        <div class="proj-title">Smart Energy Management System</div>
+        <p class="proj-desc">Plateforme enterprise IoT — 7 microservices (Auth, Ingestion, Analytics, Alertes, Gateway, Eureka, Config), gestion multi-tenant, dashboard Angular 17 et monitoring Grafana / Prometheus.</p>
+        <div class="proj-hl"><strong>Java 21 · Spring Boot 3.5 · Kafka · TimescaleDB · Docker · Kubernetes</strong></div>
+        <div class="proj-stack"><span class="stag">IoT</span><span class="stag">Multi-tenant</span><span class="stag">JWT</span><span class="stag">Angular</span></div>
+      </a>
+
+      <a href="https://github.com/OUMAIMA774/SecureCompliance-" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-top">
+          <span class="proj-badge b-sec">Cybersécurité IA</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+        <div class="proj-title">SecureCompliance</div>
+        <p class="proj-desc">Plateforme AI-powered de gestion de conformité cybersécurité. Analyse automatique des logs, scoring de risques, workflows Admin / Analyst / Auditeur, journal d'audit. Projet PFA avec InnuCloud.</p>
+        <div class="proj-hl"><strong>Laravel 13 · PHP 8 · Google Gemini · MySQL · Tailwind</strong></div>
+        <div class="proj-stack"><span class="stag">RBAC</span><span class="stag">Audit</span><span class="stag">Risk scoring</span></div>
+      </a>
+
+      <a href="https://github.com/OUMAIMA774/smart-complaints-management" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-top">
+          <span class="proj-badge b-ai">IA appliquée</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+        <div class="proj-title">Smart Complaints Management</div>
+        <p class="proj-desc">Gestion des réclamations citoyennes avec classification ML automatique, interface bilingue FR/AR, tableaux de bord multi-rôles et exports PDF/Excel/CSV.</p>
+        <div class="proj-hl"><strong>Flask · Scikit-learn · Gemini API · MySQL · Chart.js</strong></div>
+        <div class="proj-stack"><span class="stag">NLP</span><span class="stag">Classification</span><span class="stag">Civic</span></div>
+      </a>
+
+      <a href="https://github.com/OUMAIMA774/surveillance-financiere" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-top">
+          <span class="proj-badge b-de">Data Engineering</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+        <div class="proj-title">Surveillance Financière Temps Réel</div>
+        <p class="proj-desc">Détection d'anomalies en temps réel sur flux de cryptomonnaies. Pipeline complet Kafka → Elasticsearch, notifications multicanal, orchestration Airflow, tâches Celery.</p>
+        <div class="proj-hl"><strong>Kafka · Elasticsearch · Airflow · FastAPI · Celery</strong></div>
+        <div class="proj-stack"><span class="stag">Streaming</span><span class="stag">Anomalies</span><span class="stag">Crypto</span></div>
+      </a>
+
+      <a href="https://github.com/OUMAIMA774" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-top">
+          <span class="proj-badge b-cv">Computer Vision</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+        <div class="proj-title">Recherche d'Images par Contenu (CBIR)</div>
+        <p class="proj-desc">Système CBIR comparant ResNet50 et CLIP OpenAI sur 3 000 images animales. Similarité cosinus et euclidienne, interface Streamlit, cache des embeddings — CLIP surpasse ResNet de +3 %.</p>
+        <div class="proj-hl"><strong>CLIP surpasse ResNet50 de +3 % · vecteurs 2048-d</strong></div>
+        <div class="proj-stack"><span class="stag">PyTorch</span><span class="stag">CLIP</span><span class="stag">Streamlit</span></div>
+      </a>
+
+      <a href="https://github.com/OUMAIMA774" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-top">
+          <span class="proj-badge b-stat">Modélisation</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+        <div class="proj-title">GLM &amp; ACM — Réservations Hôtelières</div>
+        <p class="proj-desc">Double modélisation sur 3 020 réservations : GLM Binomial (annulation, AUC 0.866) et GLM Gamma (délai). ACM avec CAH Gower/Ward, correction Benzécri et comparaison cluster vs. aléatoire.</p>
+        <div class="proj-hl"><strong>AUC 0.866</strong> · excellente capacité discriminante (n=604)</div>
+        <div class="proj-stack"><span class="stag">R</span><span class="stag">FactoMineR</span><span class="stag">pROC</span><span class="stag">ggplot2</span></div>
+      </a>
+
+      <a href="https://github.com/OUMAIMA774" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-top">
+          <span class="proj-badge b-ds">Data Science</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+        <div class="proj-title">Climate Disaster Analysis</div>
+        <p class="proj-desc">Exploration, visualisation et prédiction de la sévérité des catastrophes climatiques mondiales 2020–2025. Dashboard Plotly/Streamlit interactif et évaluation par régression linéaire.</p>
+        <div class="proj-stack"><span class="stag">Python</span><span class="stag">Plotly</span><span class="stag">Streamlit</span><span class="stag">Scikit-learn</span></div>
+      </a>
+
+      <a href="https://github.com/OUMAIMA774" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-top">
+          <span class="proj-badge b-web">Web & Java</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+        <div class="proj-title">Système de Réservation de Voyages</div>
+        <p class="proj-desc">Plateforme de recherche, réservation et gestion de voyages, hébergements et activités. Backend Java Jakarta + Tomcat, frontend Bootstrap / JavaScript.</p>
+        <div class="proj-stack"><span class="stag">Java Jakarta</span><span class="stag">Tomcat</span><span class="stag">Bootstrap</span><span class="stag">MySQL</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-label">Compétences</div>
+      <h2 class="section-title">Un stack <em>polyvalent.</em></h2>
+    </div>
+
+    <div class="skills-grid">
+      <div class="sk-card reveal">
+        <div class="sk-head">
+          <div class="sk-icon" style="background:var(--violet-wash);">🐍</div>
+          <div class="sk-name">Langages</div>
+        </div>
+        <div class="sk-items">
+          <span class="sk-item">Python</span>
+          <span class="sk-item">Java</span>
+          <span class="sk-item">R</span>
+          <span class="sk-item">PHP</span>
+          <span class="sk-item">JavaScript</span>
+          <span class="sk-item">SQL</span>
+          <span class="sk-item">C#</span>
+          <span class="sk-item">HTML / CSS</span>
+        </div>
+      </div>
+
+      <div class="sk-card reveal">
+        <div class="sk-head">
+          <div class="sk-icon" style="background:#eef1fb;">🤖</div>
+          <div class="sk-name">IA & Machine Learning</div>
+        </div>
+        <div class="sk-items">
+          <span class="sk-item">Scikit-learn</span>
+          <span class="sk-item">PyTorch</span>
+          <span class="sk-item">CLIP / ResNet50</span>
+          <span class="sk-item">GLM · ACM</span>
+          <span class="sk-item">Gemini API</span>
+          <span class="sk-item">FactoMineR</span>
+          <span class="sk-item">Streamlit</span>
+          <span class="sk-item">Plotly</span>
+        </div>
+      </div>
+
+      <div class="sk-card reveal">
+        <div class="sk-head">
+          <div class="sk-icon" style="background:#ecfdf5;">⚙️</div>
+          <div class="sk-name">Backend & Frameworks</div>
+        </div>
+        <div class="sk-items">
+          <span class="sk-item">Spring Boot 3</span>
+          <span class="sk-item">Spring Cloud</span>
+          <span class="sk-item">Laravel</span>
+          <span class="sk-item">FastAPI</span>
+          <span class="sk-item">Flask</span>
+          <span class="sk-item">ASP.NET</span>
+          <span class="sk-item">Angular 17</span>
+          <span class="sk-item">JavaFX</span>
+        </div>
+      </div>
+
+      <div class="sk-card reveal">
+        <div class="sk-head">
+          <div class="sk-icon" style="background:#fefce8;">🏗️</div>
+          <div class="sk-name">Data Engineering & Infra</div>
+        </div>
+        <div class="sk-items">
+          <span class="sk-item">Apache Kafka</span>
+          <span class="sk-item">Elasticsearch</span>
+          <span class="sk-item">TimescaleDB</span>
+          <span class="sk-item">MongoDB</span>
+          <span class="sk-item">Redis</span>
+          <span class="sk-item">Airflow</span>
+          <span class="sk-item">Docker</span>
+          <span class="sk-item">Kubernetes</span>
+          <span class="sk-item">Nagios</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-label">Formation</div>
+      <h2 class="section-title">Parcours <em>académique.</em></h2>
+    </div>
+
+    <div class="edu-cards">
+      <div class="edu-card violet reveal">
+        <div class="edu-years">Sep. 2024 — Présent</div>
+        <div class="edu-school">Faculté des Sciences et Techniques de Mohammedia</div>
+        <div class="edu-degree">Diplôme d'ingénieur — Data Science et Informatique (IDSI)</div>
+        <div class="edu-place">Université Hassan II de Casablanca · Mohammedia</div>
+      </div>
+
+      <div class="edu-card pale reveal">
+        <div class="edu-years">Sep. 2021 — Juin 2024</div>
+        <div class="edu-school">École Normale Supérieure (ENS)</div>
+        <div class="edu-degree">Licence en Informatique</div>
+        <div class="edu-place">Marrakech, Maroc</div>
+      </div>
+
+      <div class="edu-card soft reveal">
+        <div class="edu-years">Sep. 2018 — Juin 2021</div>
+        <div class="edu-school">Lycée Mohammed V</div>
+        <div class="edu-degree">Baccalauréat Sciences Physiques</div>
+        <div class="edu-place">Kénitra, Maroc</div>
+        <span class="edu-mention">Mention Très Bien</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-eyebrow">Contact</div>
+    <h2 class="contact-title">Discutons<br>d'un projet <em>ensemble.</em></h2>
+    <p class="contact-sub">
+      Ingénieure en Data Science
+& Ingénierie
+Logicielle disponible pour des collaborations, projets et opportunités professionnelles. Basée au Maroc, ouverte à des missions à distance.
+    </p>
+    <div class="clinks">
+      <a href="mailto:elyamanioumaimaa@gmail.com" class="clink">✉ elyamanioumaimaa@gmail.com</a>
+      <a href="tel:+212680945027" class="clink">📞 +212 680 945 027</a>
+      <a href="https://www.linkedin.com/in/oumaima-el-yamani-84a002353" target="_blank" rel="noopener" class="clink">LinkedIn ↗</a>
+      <a href="https://github.com/OUMAIMA774" target="_blank" rel="noopener" class="clink">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Oumaima El Yamani</span>
+  <span>IDSI · FSTM · Université Hassan II de Casablanca</span>
+</footer>
+
+<script>
+  // Hero cards staggered
+  ['hc1','hc2','hc3','hc4','hc5'].forEach((id, i) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('show');
+    }, 500 + i * 160);
+  });
+
+  // Scroll reveal with stagger per row
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 3) * 0.08 + 's';
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
